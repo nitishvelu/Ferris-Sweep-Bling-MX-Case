@@ -13,10 +13,10 @@ seal_thickness = 0.5;
 controller_wall_thickness = 0.8;
 
 fr4_thickness = 1.6;
-switchplate_thickness = 3.3;
+switchplate_thickness = 4.9;
 kailh_sockets_thickness = 2;
 bottom_foam_thickness = 2;
-pcb_and_plate_thickness = bottom_foam_thickness + switchplate_thickness + 2 * fr4_thickness;
+pcb_and_plate_thickness = bottom_foam_thickness + switchplate_thickness + fr4_thickness;
 
 actual_bottom_foam_thickness = bottom_foam_thickness - kailh_sockets_thickness;
 
@@ -40,6 +40,7 @@ usb_tunnel_len_mm = 50;
 DXF = "ferris_sweep_bling_mx.dxf";
 
 L_plate = "pcb_outline";
+L_battery ="battery_cutout";
 L_cavity = "keycaps_outline";
 L_usb = "controller_cutout";
 L_reset = "reset";
@@ -68,6 +69,8 @@ reset_button_thick = 0.2;
 Z_LID_BASE = -lid_thickness;
 total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
 EXPLODE = 10;
+
+pcb_stack_height = actual_bottom_foam_thickness + pcb_and_plate_thickness + immersion_depth + seal_thickness;
 
 // -----------------------------------------------------------------------------
 // ------------------------------- Helpers -------------------------------------
@@ -100,7 +103,7 @@ module usb_c_cutout_2d(c = 0.1) {
 module outer_case() { rounded_case_extrude(); }
 
 // -------------------- Module: pcb_stack --------------------
-module pcb_stack() { extrude_layer(L_plate, h=actual_bottom_foam_thickness + pcb_and_plate_thickness + immersion_depth + seal_thickness, delta=clear_pcb_mm); }
+module pcb_stack() { extrude_layer(L_plate, h=pcb_stack_height, delta=clear_pcb_mm); }
 
 // -------------------- Module: keycaps_cutout --------------------
 module keycaps_cutout() { extrude_layer(L_cavity, h=total_height_top_case, delta=2 * keycaps_gap); }
@@ -163,6 +166,7 @@ module top_case() {
   difference() {
     outer_case();
     pcb_stack();
+    extrude_layer(L_battery, h=pcb_stack_height, delta=0.3);
     keycaps_cutout();
     power_switch_overhang_cutout(delta=clear_switch_mm);
     case_screw_holes();
@@ -186,6 +190,7 @@ module switchplate_foam() {
   difference() {
     extrude_layer(L_switchplate, z=fr4_thickness, h=switchplate_thickness, delta=-0.3);
     extrude_layer(L_switches, z=fr4_thickness, h=switchplate_thickness, delta=0.3);
+    extrude_layer(L_battery, z=fr4_thickness, h=switchplate_thickness, delta=0.3);
   }
 }
 
