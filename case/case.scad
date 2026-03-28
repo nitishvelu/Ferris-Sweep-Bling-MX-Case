@@ -8,9 +8,9 @@ $fn = 100;
 // -------------------- Parameters --------------------
 fillet_radius = 2;
 wall_thickness = 5.5;
-keycaps_cutout_height = 8;
+keycaps_cutout_height = 10;
 seal_thickness = 0.5;
-controller_wall_thickness = 1;
+controller_wall_thickness = 0.8;
 
 fr4_thickness = 1.6;
 switchplate_thickness = 3.3;
@@ -30,7 +30,7 @@ slider_total_height = lid_thickness + immersion_depth + kailh_sockets_thickness 
 w_shell = 8.94;
 h_shell = 3.26;
 r_corner = 1.2;
-pcb_usb_distance = 9;
+pcb_usb_distance = 11;
 Z_USB = h_shell / 2 + immersion_depth + kailh_sockets_thickness + pcb_usb_distance;
 usb_main_offset = [139.9, -76, Z_USB];
 usb_tunnel_offset = [139.9, -28, Z_USB];
