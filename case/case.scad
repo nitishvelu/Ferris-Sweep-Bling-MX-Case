@@ -175,8 +175,6 @@ module top_case() {
 module bottom_case() {
   difference() {
     lid();
-    reset_cutout(0.2);
-    reset_overhang_cutout(reset_button_thick + 0.2);
     lid_screw_holes();
     pwr_switch_slider_cutout(delta=clear_switch_mm);
     power_switch_overhang_cutout(delta=clear_switch_mm);
