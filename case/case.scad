@@ -41,6 +41,7 @@ DXF = "ferris_sweep_bling_mx.dxf";
 
 L_plate = "pcb_outline";
 L_battery ="battery_cutout";
+L_battery_top ="battery_cutout_top";
 L_cavity = "keycaps_outline";
 L_usb = "controller_cutout";
 L_reset = "reset";
@@ -166,6 +167,7 @@ module top_case() {
     outer_case();
     pcb_stack();
     extrude_layer(L_battery, h=total_height_top_case - controller_wall_thickness, delta=0.3);
+    extrude_layer(L_battery_top, h=total_height_top_case - controller_wall_thickness, delta=0.3);
     keycaps_cutout();
     power_switch_overhang_cutout(delta=clear_switch_mm);
     case_screw_holes();
