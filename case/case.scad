@@ -70,7 +70,6 @@ Z_LID_BASE = -lid_thickness;
 total_height_top_case = keycaps_cutout_height + pcb_and_plate_thickness + actual_bottom_foam_thickness + immersion_depth;
 EXPLODE = 10;
 
-pcb_stack_height = actual_bottom_foam_thickness + pcb_and_plate_thickness + immersion_depth + seal_thickness;
 
 // -----------------------------------------------------------------------------
 // ------------------------------- Helpers -------------------------------------
@@ -103,7 +102,7 @@ module usb_c_cutout_2d(c = 0.1) {
 module outer_case() { rounded_case_extrude(); }
 
 // -------------------- Module: pcb_stack --------------------
-module pcb_stack() { extrude_layer(L_plate, h=pcb_stack_height, delta=clear_pcb_mm); }
+module pcb_stack() { extrude_layer(L_plate, h=actual_bottom_foam_thickness + pcb_and_plate_thickness + immersion_depth + seal_thickness, delta=clear_pcb_mm); }
 
 // -------------------- Module: keycaps_cutout --------------------
 module keycaps_cutout() { extrude_layer(L_cavity, h=total_height_top_case, delta=2 * keycaps_gap); }
@@ -166,7 +165,7 @@ module top_case() {
   difference() {
     outer_case();
     pcb_stack();
-    extrude_layer(L_battery, h=pcb_stack_height, delta=0.3);
+    extrude_layer(L_battery, h=total_height_top_case - controller_wall_thickness, delta=0.3);
     keycaps_cutout();
     power_switch_overhang_cutout(delta=clear_switch_mm);
     case_screw_holes();
