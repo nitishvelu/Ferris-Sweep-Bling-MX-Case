@@ -30,7 +30,7 @@ slider_total_height = lid_thickness + immersion_depth + kailh_sockets_thickness 
 w_shell = 8.94;
 h_shell = 3.26;
 r_corner = 1.2;
-pcb_usb_distance = 10.5;
+pcb_usb_distance = 10.3;
 Z_USB = h_shell / 2 + immersion_depth + kailh_sockets_thickness + pcb_usb_distance;
 usb_main_offset = [139.9, -76, Z_USB];
 usb_tunnel_offset = [139.9, -28, Z_USB];
@@ -57,8 +57,13 @@ L_switchplate = "switchplate_outline";
 // Screw positions & sizes
 screw_positions = [[136.5, -147], [33, -125], [34.5, -65], [120, -53], [152, -90]];
 case_screw_diameter = 2.7;
-case_screw_depth = 3.1;
+case_screw_depth = 6.1;
 lid_screw_diameter = 2.5;
+
+brass_thread_diameter = 4.0;
+brass_thread_support_depth = 1.0;
+
+
 
 // Clearances
 clear_pcb_mm = 0.3;
@@ -120,6 +125,10 @@ module lid() {
 // -------------------- Module: case_screw_holes --------------------
 module case_screw_holes() { drill_holes(screw_positions, case_screw_diameter, 0, case_screw_depth); }
 
+
+// -------------------- Module: brass_thread_support --------------------
+module brass_thread_support() { drill_holes(screw_positions, brass_thread_diameter , 0, brass_thread_support_depth); }
+
 // -------------------- Module: lid_screw_holes --------------------
 module lid_screw_holes() { drill_holes(screw_positions, lid_screw_diameter, Z_LID_BASE, lid_thickness); }
 
@@ -170,6 +179,7 @@ module top_case() {
     extrude_layer(L_battery_top, h=total_height_top_case - controller_wall_thickness, delta=0.3);
     keycaps_cutout();
     power_switch_overhang_cutout(delta=clear_switch_mm);
+    brass_thread_support();
     case_screw_holes();
     usb_c_cutout_position();
     flat_usb_cutout();
