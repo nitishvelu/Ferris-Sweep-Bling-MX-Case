@@ -56,12 +56,20 @@ L_switchplate = "switchplate_outline";
 
 // Screw positions & sizes
 screw_positions = [[136.5, -147], [33, -125], [34.5, -65], [120, -53], [152, -90]];
-case_screw_diameter = 2.7;
+case_screw_diameter = 3.42;
 case_screw_depth = 6.1;
 lid_screw_diameter = 2.5;
 
+// brass thread adjustments
 brass_thread_diameter = 4.0;
-brass_thread_support_depth = 1.0;
+brass_thread_support_depth = 0.75;
+
+
+// bumper positions & sizes
+bumper_inward_offset = 20;
+bumper_hole_diameter = 10.1;
+bumper_hole_depth = 0.8;
+bumper_positions = [for(p = screw_positions) inward_point(p, bumper_inward_offset)];
 
 
 
@@ -80,6 +88,9 @@ EXPLODE = 10;
 // -----------------------------------------------------------------------------
 // ------------------------------- Helpers -------------------------------------
 // -----------------------------------------------------------------------------
+
+// -------------------- Function: inward_point --------------------
+function inward_point(pos, offset) = let(dist = norm(pos)) [pos[0] - offset * pos[0]/dist, pos[1] - offset * pos[1]/dist];
 
 // -------------------- Module: extrude_layer --------------------
 module extrude_layer(layer, z = 0, h = 1, delta = 0) { translate([0, 0, z]) linear_extrude(height=h) offset(delta=delta) import(file=DXF, layer=layer); }
@@ -131,6 +142,9 @@ module brass_thread_support() { drill_holes(screw_positions, brass_thread_diamet
 
 // -------------------- Module: lid_screw_holes --------------------
 module lid_screw_holes() { drill_holes(screw_positions, lid_screw_diameter, Z_LID_BASE, lid_thickness); }
+
+// -------------------- Module: bumper_holes --------------------
+module bumper_holes() { drill_holes(bumper_positions, bumper_hole_diameter, Z_LID_BASE, bumper_hole_depth); }
 
 // -------------------- Module: usb_c_cutout_position --------------------
 module usb_c_cutout_position() {
@@ -193,6 +207,7 @@ module bottom_case() {
     lid_screw_holes();
     pwr_switch_slider_cutout(delta=clear_switch_mm);
     power_switch_overhang_cutout(delta=clear_switch_mm);
+    bumper_holes();
   }
 }
 
