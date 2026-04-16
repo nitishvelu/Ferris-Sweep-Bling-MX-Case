@@ -66,10 +66,11 @@ brass_thread_support_depth = 0.75;
 
 
 // bumper positions & sizes
+centroid = [95.2, -96];
 bumper_inward_offset = 20;
 bumper_hole_diameter = 10.1;
 bumper_hole_depth = 0.8;
-bumper_positions = [for(p = screw_positions) inward_point(p, bumper_inward_offset)];
+bumper_positions = [for(p = screw_positions) inward_point(p, centroid, bumper_inward_offset)];
 
 
 
@@ -90,7 +91,7 @@ EXPLODE = 10;
 // -----------------------------------------------------------------------------
 
 // -------------------- Function: inward_point --------------------
-function inward_point(pos, offset) = let(dist = norm(pos)) [pos[0] - offset * pos[0]/dist, pos[1] - offset * pos[1]/dist];
+function inward_point(pos, center, offset) = let(vec = center - pos, dist = norm(vec)) pos + vec * (offset / dist);
 
 // -------------------- Module: extrude_layer --------------------
 module extrude_layer(layer, z = 0, h = 1, delta = 0) { translate([0, 0, z]) linear_extrude(height=h) offset(delta=delta) import(file=DXF, layer=layer); }
