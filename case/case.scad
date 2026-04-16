@@ -56,6 +56,8 @@ L_switchplate = "switchplate_outline";
 
 // Screw positions & sizes
 screw_positions = [[136.5, -147], [33, -125], [34.5, -65], [120, -53], [152, -90]];
+bumper_points = [[136.5, -147], [33, -125], [34.5, -65], [120, -53]];
+
 case_screw_diameter = 3.42;
 case_screw_depth = 6.1;
 lid_screw_diameter = 2.5;
@@ -67,10 +69,10 @@ brass_thread_support_depth = 0.75;
 
 // bumper positions & sizes
 centroid = [95.2, -96];
-bumper_inward_offset = 20;
+bumper_inward_offset = 10;
 bumper_hole_diameter = 10.1;
 bumper_hole_depth = 0.8;
-bumper_positions = [for(p = screw_positions) inward_point(p, centroid, bumper_inward_offset)];
+bumper_positions = [for(p = bumper_points) inward_point(p, centroid, bumper_inward_offset)];
 
 
 
